@@ -1,4 +1,5 @@
-import LoginImg from '../../assets/images/loginpg.jpg'
+import LoginImg from '../../assets/images/loginpg.jpg';
+
 const Login = () =>
 {
 
@@ -32,12 +33,12 @@ const Login = () =>
           <button type="submit" className="btn btn-primary">
             Submit
           </button>
-        </div>
+        </div>        
         <p className="forgot-password mt-3 text-center">
            <a href="/"  className="text-decoration-none"> Forgot password?</a>
         </p>
         <p className="forgot-password text-center">
-           <a href="/" className="text-decoration-none">Sign Up</a>
+           <a href="/register" className="text-decoration-none">Sign Up</a>
         </p>
       </form>
        </div>

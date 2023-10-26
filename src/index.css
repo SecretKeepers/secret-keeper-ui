@@ -1,0 +1,32 @@
+.wrapper_div_form
+{
+    width: 100% !important;
+    margin: 0 auto !important;
+    /* display: flex;
+    justify-content: center; */
+}
+.inner_wrapper_form
+{
+    max-width: 1500px !important;
+    margin: 0 auto !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+form {
+    width: 600px;
+    margin: 14% 0 !important;
+}
+.imageHeader{
+    margin-left: -10%;
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+
+}
+.imageHeader img {
+    width: 100%;
+}

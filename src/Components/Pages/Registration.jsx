@@ -5,6 +5,7 @@ import axios from 'axios';
 const Registration = () =>
 {
 const [formData, setFormData] = useState([]);
+const [registerationError, setRegisterationError] = useState("");
 
 const handleInputChange = (event) =>{
     setFormData({ ...formData, [event.target.name]: event.target.value });
@@ -22,19 +23,19 @@ const onSubmitHandler = (e) =>{
   
   },{
     headers :  {
-      'Content-Type': 'application/json',
-      'Access-Control-origin' : "*"
-    },
-    withCredentials : true
+      'Content-Type': 'application/json'      
+    },   
   }).then(function (response) {
-    console.log(response);
+      setRegisterationError("false")
+       console.log(response)
   })
   .catch(function (error) {
+    setRegisterationError("true")
     console.log(error);
   });
 }
 
-console.log(formData)
+console.log(registerationError)
 return (
     <div>
        <div className="container">
@@ -84,7 +85,7 @@ return (
             required
           />
         </div>
-        {/* <div className="form-group">
+        <div className="form-group">
           <label className='my-2'>Confirm Password</label>
           <input
             type="password"
@@ -94,9 +95,10 @@ return (
             onChange={handleInputChange}
             required
           />
-        </div> */}
+        </div>
+        { registerationError!=="true" &&  <p className='my-2 text-center'> Successfully registered please <a href="/">Sign In </a> </p>}
         <div style={{display:'flex', justifyContent:'center'}}>
-        <button type="submit" onClick ={onSubmitHandler} className="btn mt-3 content-center btn-primary">
+        <button type="submit" onClick ={onSubmitHandler} className="btn mt-2 content-center btn-primary">
           Register
         </button>
         </div>

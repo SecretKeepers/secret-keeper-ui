@@ -1,15 +1,20 @@
 import { useState } from 'react';
 import LoginImg from '../../assets/images/loginpg.jpg';
 import axios from 'axios';
-const Login = () =>
+import { useNavigate } from 'react-router-dom';
+const Login = (props) =>
 {
+
+  const Navigate = useNavigate();
   const[loginFormData, setLoginFormData] = useState([])
+  const[tokenS,setTokenS] = useState("");
+  
 
   const onSubmitHandler = (e) =>{
     e.preventDefault();
     axios.post('http://localhost:8080/signin',{
       
-        "username" : loginFormData.email,
+        "username" : loginFormData.username,
         "password": loginFormData.password,
           
     },{
@@ -17,13 +22,21 @@ const Login = () =>
         'Content-Type': 'application/json'      
       },   
     }).then(function (response) {
-         console.log(response)
+    //     setTokenS(response.data.token)
+    //      console.log(response.data.token)
+    //      console.log(tokenS);
+         sessionStorage.setItem("TOKEN", JSON.stringify(response.data.token))
+         sessionStorage.setItem("userName", JSON.stringify(loginFormData.username?.split('@')[0]))
+         Navigate(`/${userId}`)
+         props.checkAuthentication();
+
     })
     .catch(function (error) {
      console.log(error);
     });
   }
 
+  let userId = loginFormData.username?.split('@')[0];
   const handleInputChange = (event) =>{
     setLoginFormData({ ...loginFormData, [event.target.name]: event.target.value });
 }
@@ -35,7 +48,7 @@ const Login = () =>
         <div className='imageHeader'>
             <img src={LoginImg} alt="ds"></img>
         </div>    
-    <form>
+    <form className='custom_form'>
         <h3 className="text-center">Sign In</h3>
         <div className="mb-3">
           <label>Email address</label>

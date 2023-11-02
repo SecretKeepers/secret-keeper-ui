@@ -14,8 +14,8 @@
     justify-content: center;
 }
 
-form {
-    width: 600px;
+.custom_form {
+    width: 600px; 
     margin: 12% 0 !important;
 }
 .imageHeader{
@@ -52,3 +52,40 @@ form {
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2); /* Gray box shadow at the bottom */
 
 }
+.SecretHolder
+{
+    /* min-height: 90vh; */
+    display: flex;
+    width: 100%;
+    /* justify-content: center;
+    align-items: center; */
+}
+.custom-container {
+    /* min-height: 80vh;
+    /* min-width: 100%; */
+    margin-top: 2rem;
+    padding: 2rem; /* You can adjust the padding size as needed */
+    border-radius: 1rem;
+    box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.3);  
+  }
+
+  .add_border
+  {
+    border: 1px solid grey;
+    border-radius: 1rem;
+    margin-top: 1rem;
+  }
+  .add_border ul 
+  {
+    list-style: none;
+  }
+  /* .add_border ul li 
+  {
+    border: 1px solid ;
+  } */
+
+  .modal-content.custom-modal-width  {
+ 
+    /* min-width: 600px !important; */
+  }
+  

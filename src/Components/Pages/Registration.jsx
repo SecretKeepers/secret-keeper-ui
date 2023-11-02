@@ -39,7 +39,7 @@ console.log(registerationError)
 return (
     <div>
        <div className="container">
-      <form>
+      <form className='custom_form'>
         <h2 className='text-center'>Sign Up</h2>
         <div className="form-group">
           <label className='mb-2'>First Name </label>

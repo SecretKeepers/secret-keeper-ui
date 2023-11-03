@@ -10,39 +10,36 @@ import { useEffect, useState } from 'react';
 function App() {
 const Navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  
+  const [userName , setUserName] = useState();
+
   // useEffect(()=>{
-  //   if(localStorage.getItem("TOKEN")){
-
-  //     checkAuthentication = localStorage.getItem("TOKEN");
-  //   }
-    
-  // },[localStorage.getItem("TOKEN")])
-  // console.log(checkAuthentication);
-
-  // window.addEventListener("beforeunload", (ev) => {  
-  //   // clear out the local storage
-  //   localStorage.removeItem("TOKEN")
-  // });
+  //   setUserName(JSON.parse(sessionStorage.getItem('userName')))
+  // },[userName])
 
   const authenticationCheck = () =>{
     setIsAuthenticated(true)
   }
 
-  useEffect(()=>{
-    if(!sessionStorage.getItem("TOKEN")){
-      // Navigate('/')
-      setIsAuthenticated(false)
-    }
-  },[isAuthenticated])
+  const loggedInInfo = (name) =>{
+    setUserName(name)
+  }
 
+  console.log(userName);
+
+  // useEffect(()=>{
+  //   // if(!sessionStorage.getItem("TOKEN")){
+  //   //   Navigate('/check')
+  //   //   setIsAuthenticated(false)
+  //   // }
+  //   console.log('ren');
+  // },[isAuthenticated, Navigate])
   return (
     <div className="App">
-      <Navbar/>
+      <Navbar userDetails={userName}/>
     <Routes>
-      <Route path="/" element = { <Login />}>  </Route>
+      <Route path="/" element = { <Login checkAuthentication={authenticationCheck} onLogin={loggedInInfo} />}>  </Route>
       <Route path="/register" element = { <Registration/>}>  </Route>
-    {  (isAuthenticated || sessionStorage.getItem("TOKEN") )&& <Route path="/:user" element = { <Home/>}> </Route> }
+     <Route exact path="/:user" element = { <Home/>}> </Route> 
     </Routes>      
     </div>
   );

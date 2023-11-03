@@ -11,7 +11,7 @@ const Login = (props) =>
   
 
   const onSubmitHandler = (e) =>{
-    e.preventDefault();
+      e.preventDefault();
     axios.post('http://localhost:8080/signin',{
       
         "username" : loginFormData.username,
@@ -27,6 +27,7 @@ const Login = (props) =>
     //      console.log(tokenS);
          sessionStorage.setItem("TOKEN", JSON.stringify(response.data.token))
          sessionStorage.setItem("userName", JSON.stringify(loginFormData.username?.split('@')[0]))
+         props.onLogin(userId)
          Navigate(`/${userId}`)
          props.checkAuthentication();
 

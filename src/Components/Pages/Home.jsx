@@ -3,13 +3,22 @@ import { useParams } from "react-router-dom";
 import SecretForm from "../utils/SecretForm";
 import NoData from '../../assets/images/Nodata.jpg'
 
-const Home = () =>
+const Home = (props) =>
 {
   const [displayForm, setIsDisplayForm] = useState(false);
   
   const {user} = useParams();
   let loggedInUser = sessionStorage.getItem("userName")
   console.log(user=== JSON.parse(loggedInUser) );
+
+  const types = ['Plain text', 'Document', 'Vault', 'Password']
+
+  const handleBeforeUnload = () => {
+    console.log('back');
+  }
+
+  window.addEventListener('beforeunload', handleBeforeUnload)
+
  
 return(
     // <div style={{display:'flex',justifyContent : 'center',alignItems : 'center'}}>
@@ -25,12 +34,13 @@ return(
        <div className="container-fluid">
       <div className="row">
         <div className="col-md-3">
-          <div className="category-section">
+          <div className="category-section mt-5">
             <h5>Type</h5>
             <ul className="list-group">
-              <li className="list-group-item">Category 1</li>
-              <li className="list-group-item">Category 2</li>
-              <li className="list-group-item">Category 3</li>
+              {types.map((e)=>(
+              <li className="list-group-item" style={{cursor : 'pointer'}}>{e}</li>
+              ))}
+              
               {/* Add more categories as needed */}
             </ul>
           </div>
@@ -62,7 +72,7 @@ return(
                </div>
 
             </div>
-     : <p> No Data Found . Please Login</p>}
+     : <p style={{display : 'flex' , justifyContent : 'center', alignItems : 'center'}} className="mt-4"> You are Not authorized to view / create secrets . Please  <button className="btn btn-primary mx-2"> <a href="/" className="text-white text-decoration-none"> Login </a>  </button> or <button className="btn btn-primary mx-2"> <a href="/register"  className="text-white text-decoration-none">Register</a></button></p>}
   </>
     //  </div>
 )

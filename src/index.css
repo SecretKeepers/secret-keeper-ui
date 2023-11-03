@@ -44,6 +44,7 @@
 
 .Navbar
 {
+    padding: 0 2rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -51,6 +52,18 @@
     height: 3rem;
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2); /* Gray box shadow at the bottom */
 
+}
+.justifyCen{
+    justify-content: space-between !important;
+}
+.Navbar .round_d-v {
+    border-radius: 50%;
+    border: 2px solid black ;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-weight: bold;
 }
 .SecretHolder
 {

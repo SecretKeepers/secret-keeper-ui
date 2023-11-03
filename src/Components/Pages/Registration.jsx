@@ -6,6 +6,7 @@ const Registration = () =>
 {
 const [formData, setFormData] = useState([]);
 const [registerationError, setRegisterationError] = useState("");
+const [formErrors, setformErrors] = useState({});
 
 const handleInputChange = (event) =>{
     setFormData({ ...formData, [event.target.name]: event.target.value });
@@ -13,7 +14,34 @@ const handleInputChange = (event) =>{
 
 const onSubmitHandler = (e) =>{
   e.preventDefault();
-  console.log('clicked', formData);
+  let errors = {}
+
+  if(!formData.firstname?.trim()){
+    errors.firstNameError = 'First Name Cannot be empty';
+  }
+
+  if(!formData.lastname?.trim()){
+    errors.lastNameError = 'Last Name Cannot be empty';
+  }
+  if(!formData.email?.trim()){
+    errors.userName = 'Email Cannot be empty';
+  }
+  if(!formData.password?.trim()){
+    errors.passwordError = 'Password Cannot be empty';
+  }
+  
+  if(!formData.confirmPassword?.trim()){
+    errors.ConfirmpasswordError = 'Confirm Password field Cannot be empty';
+  }
+
+  if(formData.confirmPassword !== formData.password){
+    errors.mismatchPass = 'It does not match with password';
+  }
+  setformErrors(errors)
+  if (Object.keys(errors).length > 0) {
+    return;
+  }
+
   axios.post('http://localhost:8080/signup',{
     
       "firstName" : formData.firstname,
@@ -27,15 +55,22 @@ const onSubmitHandler = (e) =>{
     },   
   }).then(function (response) {
       setRegisterationError("false")
-       console.log(response)
+      setFormData ({
+        "firstname" : '',
+        "lastname": '',
+        "username" : '',
+        "password" : ''
+      })
   })
   .catch(function (error) {
     setRegisterationError("true")
     console.log(error);
   });
 }
-
-console.log(registerationError)
+const PrintError = ({msg}) => (
+   <p className='text-danger mb-1 float-right'> {msg} </p>
+)
+console.log(formErrors)
 return (
     <div>
        <div className="container">
@@ -51,6 +86,7 @@ return (
             onChange={handleInputChange}
             required
           />
+          {formErrors.firstNameError && <PrintError msg={formErrors.firstNameError}/>}
         </div>
         <div className="form-group">
           <label className='mb-2'>Last Name</label>
@@ -62,6 +98,7 @@ return (
             onChange={handleInputChange}
             required
           />
+          {formErrors.lastNameError && <PrintError msg={formErrors.lastNameError}/>}
         </div>
         <div className="form-group">
           <label className='mb-2'>Email</label>
@@ -69,10 +106,11 @@ return (
             type="email"
             className="form-control"
             name="email"
-            value={formData.email}
+            value={formData.username}
             onChange={handleInputChange}
             required
           />
+          {formErrors.userName && <PrintError msg={formErrors.userName}/>}
         </div>
         <div className="form-group">
           <label className='my-2'>Password</label>
@@ -84,6 +122,7 @@ return (
             onChange={handleInputChange}
             required
           />
+          {formErrors.passwordError && <PrintError msg={formErrors.passwordError}/>}
         </div>
         <div className="form-group">
           <label className='my-2'>Confirm Password</label>
@@ -95,8 +134,10 @@ return (
             onChange={handleInputChange}
             required
           />
+            {formErrors.passwordError && <PrintError msg={formErrors.confirmPassword}/>}
+            {formErrors.mismatchPass && <PrintError msg={formErrors.mismatchPass}/>}
         </div>
-        { registerationError!=="true" &&  <p className='my-2 text-center'> Successfully registered please <a href="/">Sign In </a> </p>}
+        { registerationError ==="true" &&  <p className='my-2 text-center'> Successfully registered please <a href="/">Sign In </a> </p>}
         <div style={{display:'flex', justifyContent:'center'}}>
         <button type="submit" onClick ={onSubmitHandler} className="btn mt-2 content-center btn-primary">
           Register

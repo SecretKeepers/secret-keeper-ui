@@ -11,6 +11,7 @@ function App() {
 const Navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userName , setUserName] = useState();
+  const [currLocation, setCurrLocation] = useState();
 
   // useEffect(()=>{
   //   setUserName(JSON.parse(sessionStorage.getItem('userName')))
@@ -33,13 +34,48 @@ const Navigate = useNavigate();
   //   // }
   //   console.log('ren');
   // },[isAuthenticated, Navigate])
+
+
+  const setLocationLast = (loc) =>{
+    setCurrLocation(loc)
+  }
+
+  useEffect(() => {
+    let lastUrl = currLocation;
+    const handleBackButton = (e) => {
+      const currentUrl = window.location.href;
+      if (lastUrl !== currentUrl) {
+        // User navigated forward
+          // setTimeout(()=>{
+          //   alert("Loggin Out");
+          // },1000)        
+         sessionStorage.removeItem('TOKEN')
+        sessionStorage.removeItem('userName')
+         } else {
+       
+        // alert("You pressed the forward button");
+
+      }
+
+    };
+
+    window.addEventListener('popstate', handleBackButton);
+
+    return () => {
+      window.removeEventListener('popstate', handleBackButton);
+    };
+  }, []);
+
+  console.log(currLocation);
+  
+
   return (
     <div className="App">
       <Navbar userDetails={userName}/>
     <Routes>
       <Route path="/" element = { <Login checkAuthentication={authenticationCheck} onLogin={loggedInInfo} />}>  </Route>
       <Route path="/register" element = { <Registration/>}>  </Route>
-     <Route exact path="/:user" element = { <Home/>}> </Route> 
+     <Route exact path="/:user" element = { <Home setLocation = {setLocationLast}/>}> </Route> 
     </Routes>      
     </div>
   );

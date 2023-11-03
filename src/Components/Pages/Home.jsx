@@ -1,8 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import SecretForm from "../utils/SecretForm";
 import NoData from '../../assets/images/Nodata.jpg'
-
 const Home = (props) =>
 {
   const [displayForm, setIsDisplayForm] = useState(false);
@@ -13,13 +12,10 @@ const Home = (props) =>
 
   const types = ['Plain text', 'Document', 'Vault', 'Password']
 
-  const handleBeforeUnload = () => {
-    console.log('back');
-  }
+  useEffect (()=>{
+    props.setLocation(window.location.href)
 
-  window.addEventListener('beforeunload', handleBeforeUnload)
-
- 
+  },[])
 return(
     // <div style={{display:'flex',justifyContent : 'center',alignItems : 'center'}}>
   <>

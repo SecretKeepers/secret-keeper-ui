@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import LoginImg from '../../assets/images/loginpg.jpg';
-import axios from 'axios';
+import axios from "../../utils/axios";
 import { useNavigate } from 'react-router-dom';
 const Login = (props) =>
 {
@@ -12,7 +12,7 @@ const Login = (props) =>
 
   const onSubmitHandler = (e) =>{
       e.preventDefault();
-    axios.post('http://localhost:8080/signin',{
+    axios.post('/signin',{
       
         "username" : loginFormData.username,
         "password": loginFormData.password,

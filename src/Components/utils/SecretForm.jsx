@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import axios from "../../utils/axios";
 import { useEffect } from "react";
 import { Modal } from "react-bootstrap";
 const SecretForm = (props) => {
@@ -22,20 +22,19 @@ const SecretForm = (props) => {
     setIsSubmitClicked(!isSubmitClicked);
     axios
       .post(
-        "http://localhost:8080/secret/simple/create",
+        "/secret/simple/create",
         {
           type: secretData.type,
           secret: secretData.secret,
           description: secretData.description,
-          masterKey: "123",
+          masterKey: "abcd1234",
         },
         {
           headers: {
             "Content-Type": "application/json",
             // 'Access-Control-Allow-Origin': '*'
-            'Authorization' : `Bearer ${secretData.token}`
+            // 'Authorization' : `Bearer ${secretData.token}`
           },
-          // withCredentials: true,
         }
       )
       .then(function (response) {

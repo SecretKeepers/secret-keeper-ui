@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import registerSvg from '../../assets/images/registerSVG.svg'
-import axios from 'axios';
+import axios from "../../utils/axios";
 
 const Registration = () =>
 {
@@ -42,7 +42,7 @@ const onSubmitHandler = (e) =>{
     return;
   }
 
-  axios.post('http://localhost:8080/signup',{
+  axios.post('/signup',{
     
       "firstName" : formData.firstname,
       "lastName": formData.lastname,
@@ -51,8 +51,8 @@ const onSubmitHandler = (e) =>{
   
   },{
     headers :  {
-      'Content-Type': 'application/json'      
-    },   
+      'Content-Type': 'application/json',
+    },
   }).then(function (response) {
       setRegisterationError("false")
       setFormData ({

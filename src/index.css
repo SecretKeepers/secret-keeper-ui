@@ -102,3 +102,14 @@
     /* min-width: 600px !important; */
   }
   
+  .equalizer
+  {
+    margin-top: -0.80rem;
+  }
+
+  .imageHolder
+  {
+    padding: 0.25rem;
+    width: 150px;
+    height: 3rem;
+  }

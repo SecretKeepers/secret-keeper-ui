@@ -7,7 +7,7 @@ const Login = (props) =>
 
   const Navigate = useNavigate();
   const[loginFormData, setLoginFormData] = useState([])
-  const[tokenS,setTokenS] = useState("");
+  // const[tokenS,setTokenS] = useState("");
   
 
   const onSubmitHandler = (e) =>{
@@ -27,7 +27,7 @@ const Login = (props) =>
     //      console.log(tokenS);
          sessionStorage.setItem("TOKEN", JSON.stringify(response.data.token))
          sessionStorage.setItem("userName", JSON.stringify(loginFormData.username?.split('@')[0]))
-         props.onLogin(userId)
+        //  props.onLogin(userId)
          Navigate(`/${userId}`)
          props.checkAuthentication();
 

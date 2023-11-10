@@ -1,12 +1,14 @@
-import { useState } from 'react';
+import {  useState } from 'react';
 import registerSvg from '../../assets/images/registerSVG.svg'
 import axios from "../../utils/axios";
+// import { useNavigate } from 'react-router-dom';
 
 const Registration = () =>
 {
 const [formData, setFormData] = useState([]);
-const [registerationError, setRegisterationError] = useState("");
+const [isSucceffullyRegistered, setIsSucceffullyRegistered] = useState(false);
 const [formErrors, setformErrors] = useState({});
+// const Navigate = useNavigate();
 
 const handleInputChange = (event) =>{
     setFormData({ ...formData, [event.target.name]: event.target.value });
@@ -54,23 +56,33 @@ const onSubmitHandler = (e) =>{
       'Content-Type': 'application/json',
     },
   }).then(function (response) {
-      setRegisterationError("false")
+    setIsSucceffullyRegistered(true)
       setFormData ({
         "firstname" : '',
         "lastname": '',
-        "username" : '',
-        "password" : ''
+        "email" : '',
+        "password" : '',
+        "confirmPassword" : ''
       })
   })
   .catch(function (error) {
-    setRegisterationError("true")
+    setIsSucceffullyRegistered(false)
     console.log(error);
   });
 }
 const PrintError = ({msg}) => (
    <p className='text-danger mb-1 float-right'> {msg} </p>
 )
-console.log(formErrors)
+console.log(formData)
+
+
+// useEffect(()=>{
+//   if(isSucceffullyRegistered){
+//     alert('Successfully Registered Please Login')
+//     Navigate('/')
+//   }
+// },[isSucceffullyRegistered])
+
 return (
     <div>
        <div className="container">
@@ -106,7 +118,7 @@ return (
             type="email"
             className="form-control"
             name="email"
-            value={formData.username}
+            value={formData.email}
             onChange={handleInputChange}
             required
           />
@@ -137,7 +149,7 @@ return (
             {formErrors.passwordError && <PrintError msg={formErrors.confirmPassword}/>}
             {formErrors.mismatchPass && <PrintError msg={formErrors.mismatchPass}/>}
         </div>
-        { registerationError ==="true" &&  <p className='my-2 text-center'> Successfully registered please <a href="/">Sign In </a> </p>}
+        { isSucceffullyRegistered &&  <p className='my-2 text-center'> Successfully registered please <a href="/">Sign In </a> </p>}
         <div style={{display:'flex', justifyContent:'center'}}>
         <button type="submit" onClick ={onSubmitHandler} className="btn mt-2 content-center btn-primary">
           Register

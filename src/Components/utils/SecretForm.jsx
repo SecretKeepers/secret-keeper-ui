@@ -12,22 +12,22 @@ const SecretForm = (props) => {
   useEffect(() => {
     setSecretData({
       ...secretData,
-      token: JSON.parse(sessionStorage.getItem("TOKEN")),
+      // token: JSON.parse(sessionStorage.getItem("TOKEN")),
     });
     console.log(secretData.token);
-  }, [secretData.token]);
+  }, []);
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
     setIsSubmitClicked(!isSubmitClicked);
     axios
       .post(
-        "/secret/simple/create",
+        "/secret/create",
         {
-          type: secretData.type,
+          type: "simple",
           secret: secretData.secret,
           description: secretData.description,
-          masterKey: "abcd1234",
+          // masterKey: "123",
         },
         {
           headers: {

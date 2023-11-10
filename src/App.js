@@ -13,17 +13,17 @@ const Navigate = useNavigate();
   const [userName , setUserName] = useState();
   const [currLocation, setCurrLocation] = useState();
 
-  // useEffect(()=>{
-  //   setUserName(JSON.parse(sessionStorage.getItem('userName')))
-  // },[userName])
+  useEffect(()=>{
+    setUserName(JSON.parse(sessionStorage?.getItem('userName')))
+  },[userName])
 
   const authenticationCheck = () =>{
     setIsAuthenticated(true)
   }
 
-  const loggedInInfo = (name) =>{
-    setUserName(name)
-  }
+  // const loggedInInfo = (name) =>{
+  //   setUserName(name)
+  // }
 
   console.log(userName);
 
@@ -49,8 +49,9 @@ const Navigate = useNavigate();
           // setTimeout(()=>{
           //   alert("Loggin Out");
           // },1000)        
-         sessionStorage.removeItem('TOKEN')
+        sessionStorage.removeItem('TOKEN')
         sessionStorage.removeItem('userName')
+        setUserName('')
          } else {
        
         // alert("You pressed the forward button");
@@ -66,6 +67,9 @@ const Navigate = useNavigate();
     };
   }, []);
 
+  useEffect(()=>{
+
+  })
   console.log(currLocation);
   
 
@@ -73,7 +77,7 @@ const Navigate = useNavigate();
     <div className="App">
       <Navbar userDetails={userName}/>
     <Routes>
-      <Route path="/" element = { <Login checkAuthentication={authenticationCheck} onLogin={loggedInInfo} />}>  </Route>
+      <Route path="/" element = { <Login checkAuthentication={authenticationCheck}  />}>  </Route>
       <Route path="/register" element = { <Registration/>}>  </Route>
      <Route exact path="/:user" element = { <Home setLocation = {setLocationLast}/>}> </Route> 
     </Routes>      

@@ -8,13 +8,10 @@ pipeline{
     stages{
         stage('Build'){
             steps{
-                sh 'npm install'
+                dir('C:/ProgramData/Jenkins/.jenkins/workspace/secret-keeper-ui/.git') {
+                  sh 'npm install'
+                }
             }
         }
-         stage('Deploy'){
-             steps{
-                 sh 'nmp start'
-             }
-         }
     }    
 }

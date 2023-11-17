@@ -18,5 +18,10 @@ pipeline{
                 bat 'npm start'
             }
         }
+        stage('Stopping'){
+            steps{
+                bat 'npm stop'
+            }
+        }
     }    
 }

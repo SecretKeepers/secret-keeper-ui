@@ -13,11 +13,11 @@ pipeline{
                 bat 'npm install'
             }
         }
-        stage('Deploying'){
+/*         stage('Deploying'){
             steps{
                 bat 'npm start'
             }
-        }
+        } */
         stage('Stopping'){
             steps{
                 bat 'npm stop'

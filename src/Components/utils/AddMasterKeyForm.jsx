@@ -3,7 +3,7 @@ import { Modal } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import axios from '../../utils/axios'
 
-const MasterKeyForm = (props) =>{
+const AddMasterKeyForm = (props) =>{
     const [ masterKey, setMasterKey] = useState();
     const [isSubmitted , setIsSubmitted] = useState(false);
     
@@ -16,16 +16,15 @@ const MasterKeyForm = (props) =>{
         if(!masterKey){
           return;
         }
-        axios.post('/master/set',{
+        axios.post('/master/add',{
           "masterKey" : masterKey,
         },{
           headers : {
             'Content-Type' : 'application/json'
           }
-        }).then(function(response){
-          console.log('MasterKey Set', response);
-          props.setMasterkeyValue(masterKey);
+        }).then(function(response){               
           setIsSubmitted(true);
+          props.ChangingVariableMstrKyAdded();
         })
         .catch(function(error){
           console.log(error);
@@ -61,7 +60,7 @@ const MasterKeyForm = (props) =>{
               className="btn btn-primary my-2"
               onClick={onSubmitMasterKey}
             >
-              Set Master Key
+              Add Master Key
             </button>
           </div>
         </form>
@@ -70,4 +69,4 @@ const MasterKeyForm = (props) =>{
     )
 }
 
-export default MasterKeyForm;
+export default AddMasterKeyForm;

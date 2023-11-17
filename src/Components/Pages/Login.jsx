@@ -22,14 +22,13 @@ const Login = (props) =>
         'Content-Type': 'application/json'      
       },   
     }).then(function (response) {
-    //     setTokenS(response.data.token)
-    //      console.log(response.data.token)
-    //      console.log(tokenS);
-         sessionStorage.setItem("TOKEN", JSON.stringify(response.data.token))
-         sessionStorage.setItem("userName", JSON.stringify(loginFormData.username?.split('@')[0]))
+         sessionStorage.setItem("isAuthenticated", true )
+         sessionStorage.setItem("userName", JSON.stringify(response.data.username?.split('@')[0]))
+         sessionStorage.setItem("Name", JSON.stringify(response.data.firstName + " " + response.data.lastName))
         //  props.onLogin(userId)
-         Navigate(`/${userId}`)
-         props.checkAuthentication();
+         console.log(response.data, " reponse login");
+         Navigate(`/home`, {state : {details : response.data}})
+    
 
     })
     .catch(function (error) {

@@ -1,31 +1,31 @@
 import './App.css';
 import Login from './Components/Pages/Login';
 import Registration from './Components/Pages/Registration'
-import { Routes, Route,useNavigate, useParams } from "react-router-dom";
+import { Routes, Route,useNavigate, useParams,useLocation,Navigate } from "react-router-dom";
 import Navbar from './Components/utils/Navbar';
 import Home from './Components/Pages/Home';
 import { useEffect, useState } from 'react';
 
 
 function App() {
-const Navigate = useNavigate();
+   const Navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userName , setUserName] = useState();
   const [currLocation, setCurrLocation] = useState();
 
   useEffect(()=>{
     setUserName(JSON.parse(sessionStorage?.getItem('userName')))
-  },[userName])
+  },[setUserName])
 
-  const authenticationCheck = () =>{
-    setIsAuthenticated(true)
-  }
+  console.log(isAuthenticated, "check Authenc");
+
+  useEffect(()=>{
+    setIsAuthenticated(sessionStorage.getItem('isAuthenticated'))
+  })  
 
   // const loggedInInfo = (name) =>{
   //   setUserName(name)
   // }
-
-  console.log(userName);
 
   // useEffect(()=>{
   //   // if(!sessionStorage.getItem("TOKEN")){
@@ -45,17 +45,13 @@ const Navigate = useNavigate();
     const handleBackButton = (e) => {
       const currentUrl = window.location.href;
       if (lastUrl !== currentUrl) {
-        // User navigated forward
-          // setTimeout(()=>{
-          //   alert("Loggin Out");
-          // },1000)        
-        sessionStorage.removeItem('TOKEN')
+        sessionStorage.removeItem('isAuthenticated')
         sessionStorage.removeItem('userName')
+        sessionStorage.removeItem('Name')
         setUserName('')
          } else {
        
         // alert("You pressed the forward button");
-
       }
 
     };
@@ -77,12 +73,25 @@ const Navigate = useNavigate();
     <div className="App">
       <Navbar userDetails={userName}/>
     <Routes>
-      <Route path="/" element = { <Login checkAuthentication={authenticationCheck}  />}>  </Route>
+      <Route path="/" element = { <Login  />}>  </Route>
       <Route path="/register" element = { <Registration/>}>  </Route>
-     <Route exact path="/:user" element = { <Home setLocation = {setLocationLast}/>}> </Route> 
+     <Route  path="/home" element = { <Home setLocation = {setLocationLast} isAuthenticated={isAuthenticated}/>}> </Route> 
+     <Route path="/*" element={<RedirectIfInvalid />} />
     </Routes>      
     </div>
   );
 }
+function RedirectIfInvalid() {
+  const location = useLocation();
 
+  // Define valid paths
+  const validPaths = ['/', '/register', '/home'];
+
+  // Check if the current path is valid, if not redirect to the default path ('/')
+  if (!validPaths.includes(location.pathname)) {
+    return <Navigate to="/" />;
+  }
+
+  return null;
+}
 export default App;

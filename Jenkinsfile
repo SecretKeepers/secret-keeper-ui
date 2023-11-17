@@ -1,16 +1,26 @@
 pipeline{
-    agent{
-        docker{
-            image 'node:6-alpine'
-            args '-p 3000:3000'
-        }
-    }
+    agent any
+    tools {nodejs "NodeJS"}
     stages{
-        stage('Build'){
+        stage('cloning repository'){
             steps{
-                dir('C:/ProgramData/Jenkins/.jenkins/workspace/secret-keeper-ui/.git') {
-                  sh 'npm install'
-                }
+                git branch: 'dev-Prem',
+                       url: 'https://github.com/SecretKeepers/secret-keeper-service.git'
+            }
+        }
+        stage('Installing Dependencies'){
+            steps{
+                bat 'npm install'
+            }
+        }
+        stage('Running tests'){
+            steps{
+                bat 'npm test'
+            }
+        }
+        stage('Deploying'){
+            steps{
+                bat 'npm start'
             }
         }
     }    

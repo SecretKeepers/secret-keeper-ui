@@ -24,7 +24,7 @@ const AddMasterKeyForm = (props) =>{
           }
         }).then(function(response){               
           setIsSubmitted(true);
-          props.ChangingVariableMstrKyAdded();
+          sessionStorage.setItem('MasterKeyAdded',true)
         })
         .catch(function(error){
           console.log(error);

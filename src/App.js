@@ -23,19 +23,6 @@ function App() {
     setIsAuthenticated(sessionStorage.getItem('isAuthenticated'))
   })  
 
-  // const loggedInInfo = (name) =>{
-  //   setUserName(name)
-  // }
-
-  // useEffect(()=>{
-  //   // if(!sessionStorage.getItem("TOKEN")){
-  //   //   Navigate('/check')
-  //   //   setIsAuthenticated(false)
-  //   // }
-  //   console.log('ren');
-  // },[isAuthenticated, Navigate])
-
-
   const setLocationLast = (loc) =>{
     setCurrLocation(loc)
   }
@@ -45,15 +32,9 @@ function App() {
     const handleBackButton = (e) => {
       const currentUrl = window.location.href;
       if (lastUrl !== currentUrl) {
-        sessionStorage.removeItem('isAuthenticated')
-        sessionStorage.removeItem('userName')
-        sessionStorage.removeItem('Name')
+        sessionStorage.clear();
         setUserName('')
-         } else {
-       
-        // alert("You pressed the forward button");
-      }
-
+         }
     };
 
     window.addEventListener('popstate', handleBackButton);
@@ -62,12 +43,6 @@ function App() {
       window.removeEventListener('popstate', handleBackButton);
     };
   }, []);
-
-  useEffect(()=>{
-
-  })
-  console.log(currLocation);
-  
 
   return (
     <div className="App">

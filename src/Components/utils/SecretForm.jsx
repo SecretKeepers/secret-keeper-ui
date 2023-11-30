@@ -52,48 +52,6 @@ const SecretForm = (props) => {
 
 
   return (
-    //     <form>
-    //   <div className="form-group">
-    //      <h4 className="text-center"> Create a Secret </h4>
-    //     <label htmlFor="type">Type</label>
-    //     <input
-    //       type="text"
-    //       className="form-control"
-    //       id="type"
-    //       name="type"
-    //       placeholder="Enter Type"
-    //       // value={formData.type}
-    //       onChange={handleInputChange}
-    //     />
-    //   </div>
-    //   <div className="form-group">
-    //     <label htmlFor="secret">Secret</label>
-    //     <input
-    //       type="password"
-    //       className="form-control"
-    //       id="secret"
-    //       name="secret"
-    //       placeholder="Enter Secret"
-    //       // value={formData.secret}
-    //       onChange={handleInputChange}
-    //     />
-    //   </div>
-    //   <div className="form-group">
-    //     <label htmlFor="description">Description</label>
-    //     <textarea
-    //       className="form-control my-2"
-    //       id="description"
-    //       name="description"
-    //       placeholder="Enter Description"
-    //       // value={formData.description}
-    //       onChange={handleInputChange}
-    //     ></textarea>
-    //   </div>
-    //   <div style={{display:'flex', justifyContent :'center'}}>
-    //   <button type="submit" className="btn btn-primary my-2" onClick={onSubmitHandler}> Store my Secret</button>
-
-    //   </div>
-    // </form>
     <Modal
       show={props.showModal}
       onHide={props.handleClose}
@@ -114,7 +72,7 @@ const SecretForm = (props) => {
               onChange={handleInputChange}
             >
               <option value="">Select Type</option>
-              <option value="password">Password</option>
+              <option value="password">Simple</option>
               <option value="plain text">Plain Text</option>
               <option value="document">Document</option>
               <option value="vault">Vault</option>

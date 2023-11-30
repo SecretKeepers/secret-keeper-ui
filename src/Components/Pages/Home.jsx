@@ -6,23 +6,26 @@ import axios from "../../utils/axios";
 import MasterKeyForm from "../utils/MasterKeyForm";
 import { useLocation } from "react-router-dom";
 import AddMasterKeyForm from "../utils/AddMasterKeyForm";
+import NotAvailable from "./NotAvailable";
 
 const Home = (props) => {
   const [displayForm, setIsDisplayForm] = useState(false);
   const [isMasterKeySet, setIsMasterKeySet] = useState(false);
   const [valueMasterkey, setIsValueMasterKey] = useState();
   const [masterKeyAdded, setMasterKeyAdded] = useState(false);
+  const [ checkAuthentication, setCheckAuthentication] = useState(false);
+  const [activeItem, setActiveItem] = useState("Simple");
+  const [categorySelect, setCategorySelected] = useState("Simple");
 
-
-  const [secret, setSecret] = useState([]);
   const location = useLocation();
   const propsReceived = location.state;
 
-  const { user } = useParams();
+  const [firstAddMstrKey, setFirstAddMstrKey] = useState(propsReceived?.details?.masterKeySet)
 
-  let loggedInUser = sessionStorage.getItem("userName");
 
-  const types = ["Plain text", "Document", "Vault", "Password"];
+  const [secret, setSecret] = useState([]);
+
+  const types = ["Simple", "Document", "Vault", "Password"];
 
   useEffect(() => {
     props.setLocation(window.location.href);
@@ -37,7 +40,7 @@ const Home = (props) => {
     axios
       .get("/secret/all/decrypted", {
         params: {
-          type: "simple",
+          type: categorySelect,
         },
       })
       .then(function (response) {
@@ -48,7 +51,10 @@ const Home = (props) => {
       });
   };
 
-  // const fetchSecrets()=>{}
+
+  const DisplaySimpleSecret = (secMsg) => (
+    <li>{secMsg}</li>
+    )
 
   const setMasterkeyValue = (val) => {
     setIsValueMasterKey(val);
@@ -66,7 +72,6 @@ const Home = (props) => {
           }
         )
         .then(function (response) {
-          console.log("MasterKey Set", response);
           ChangingVariableMstrKyAdded();
         })
         .catch(function (error) {
@@ -74,28 +79,40 @@ const Home = (props) => {
         });
     }
   };
+
  const ChangingVariableMstrKyAdded = () =>{
-  console.log('setti');
    sessionStorage.setItem('masterkeyVl', true)
  }
 
+
  useEffect(()=>{
-  console.log('che');
   setIsMasterKeySet(JSON.parse(sessionStorage.getItem('masterkeyVl')))
+  setMasterKeyAdded(JSON.parse(sessionStorage.getItem('MasterKeyAdded')))
+  if(props?.isAuthenticated){
+    setCheckAuthentication(props?.isAuthenticated)
+  }
  },[])
 
- console.log(masterKeyAdded);
+ const categoryClicked = (clickedItem)=>{
+  setActiveItem(clickedItem);
+  setCategorySelected(clickedItem)
+ }
+
+ const changeFirstMstrKy = () =>{
+   setFirstAddMstrKey(true)
+ }
 
   return (
     <>
+        {(!masterKeyAdded &&  props?.isAuthenticated) &&  (
+          <AddMasterKeyForm closeModal={closeMasterKeyForm} ChangingVariableMstrKyAdded={ChangingVariableMstrKyAdded} />
+        )}
       {!propsReceived?.details?.masterKeySet && props?.isAuthenticated && (
         <MasterKeyForm
+          firstInst = {changeFirstMstrKy}
           setMasterkeyValue={setMasterkeyValue}
           closeModal={closeMasterKeyForm}
         />
-      )}
-      {!masterKeyAdded && (
-        <AddMasterKeyForm closeModal={closeMasterKeyForm} ChangingVariableMstrKyAdded={ChangingVariableMstrKyAdded} />
       )}
       {props?.isAuthenticated ? (
         <div className="SecretHolder">
@@ -116,8 +133,9 @@ const Home = (props) => {
                       <ul className="list-group">
                         {types.map((e) => (
                           <li
-                            className="list-group-item"
-                            style={{ cursor: "pointer" }}
+                          className={activeItem === e ? "list-group-item active" : "list-group-item"}
+                          style={{ cursor: "pointer" }}
+                            onClick={()=>categoryClicked(e)}
                           >
                             {e}
                           </li>
@@ -161,10 +179,13 @@ const Home = (props) => {
                               flexDirection: "column",
                             }}
                           >
-                            {secret?.map((e) => (
-                              <li>{e.secretValue}</li>
+                            {secret.filter(secret => secret.secretType===categorySelect.toLowerCase())?.map((e) => (
+                            <>
+                            <li>{e.secretValue}</li>
+                            <hr/>
+                            </>                              
                             ))}
-                            {secret.length === 0 && (
+                            {secret.filter(secret => secret.secretType===categorySelect.toLowerCase()).length === 0 && (
                               <>
                                 <img
                                   style={{ width: "40%" }}
@@ -175,7 +196,7 @@ const Home = (props) => {
                                   className="btn btn-success ml-3 mt-2 m-1"
                                   onClick={DisplaySecretClicked}
                                 >
-                                  Display Secrets
+                                  Display {categorySelect} Secrets
                                 </button>
                               </>
                             )}
@@ -191,31 +212,7 @@ const Home = (props) => {
           </div>
         </div>
       ) : (
-        <p
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-          className="mt-4"
-        >
-          {" "}
-          You are Not authorized to view / create secrets . Please{" "}
-          <button className="btn btn-primary mx-2">
-            {" "}
-            <a href="/" className="text-white text-decoration-none">
-              {" "}
-              Login{" "}
-            </a>{" "}
-          </button>{" "}
-          or{" "}
-          <button className="btn btn-primary mx-2">
-            {" "}
-            <a href="/register" className="text-white text-decoration-none">
-              Register
-            </a>
-          </button>
-        </p>
+        <NotAvailable/>
       )}
     </>
     //  </div>

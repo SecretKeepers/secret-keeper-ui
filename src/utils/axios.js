@@ -1,7 +1,7 @@
 import axios from 'axios';
  
 const instance = axios.create({
-  baseURL: 'http://secret-se:8080',
+  baseURL: 'http://34.205.131.186:8080',
   withCredentials: true
 });
 

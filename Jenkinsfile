@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    tools {
-        node '16'
-    }
-
     environment {
         DOCKER_IMAGE_NAME = "thepolitician/secret-ui"
         ANSIBLE_HOST_KEY_CHECKING="False"
@@ -14,19 +10,6 @@ pipeline {
         stage('Checkout') {
             steps {
                 checkout scm
-            }
-        }
-        
-        stage('Build') {
-            steps {
-                sh 'npm install'
-                sh 'npm run build'
-            }
-        }
-
-        stage('Test') {
-            steps {
-                sh 'npm test'
             }
         }
 
